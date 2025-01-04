@@ -1,57 +1,8 @@
-#set text(font: "Noto Serif SC")
+#import "../template.typ": *
 
-#show raw: set text(font: "Jetbrains Mono", weight: 700)
-#let under-heavy-line(it) = {
-  underline(
-    underline(it, stroke: yellow.lighten(50%) + 0.5em, evade: false, background: true, offset: -0.5pt),
-    stroke: blue.lighten(50%) + 0.2em,
-    evade: true,
-    background: true,
-    offset: 4pt,
-  )
-}
-#show heading.where(level: 1): it => {
-  set text(stroke: 0.04em, size: 1.3em, weight: 600, font: "Noto Sans SC")
-  it
-  line(length: 100%)
-}
-#show heading.where(): it => {
-  // under-heavy-line(it);
-  it
-}
-#align(
-  center,
-  text(30pt)[
-    *分治算法作业*
-  ],
-)
-#grid(
-  columns: (3fr, 3fr),
-  underline(
-    evade: false,
-    text(
-      18pt,
-      stroke: 0.06em,
-      font: "Noto Sans SC",
-      grid(
-        columns: (1fr, 1fr),
-        [姓名：], [叶子宁],
-      ),
-    ),
-  ),
-  underline(
-    evade: false,
-    text(
-      18pt,
-      stroke: 0.03em,
-      font: "Noto Serif SC",
-      grid(
-        columns: (1fr, 1fr),
-        [学号：], [1120231313],
-      ),
-    ),
-  ),
-)
+#show: apply_styles.with()
+#header([分治算法作业])
+
 = 2.8
 == 题意
 设n个不同的整数排好序后存于 $T[1:n]$ 中\
