@@ -31,7 +31,7 @@ private:
     {
         return idx * 2 + 2;
     }
-    void maintain(int idx)
+    void siftDown(int idx)
     {
         for (int i = idx, j = idx; getLeftson(i) < size(); i = j)
         {
@@ -39,6 +39,16 @@ private:
             if (getRightson(i) < size() && get(getRightson(i)) > get(j))
                 j = getRightson(i);
             if (get(j) <= get(i))
+                break;
+            std::swap(get(i), get(j));
+        }
+    }
+    void siftUp(int idx)
+    {
+        for (int i = idx, j = idx; i > 0; i = j)
+        {
+            j = getFather(i);
+            if (get(j) >= get(i))
                 break;
             std::swap(get(i), get(j));
         }
@@ -54,12 +64,13 @@ public:
         int res = heap.front();
         std::swap(heap.front(), heap.back());
         heap.pop_back();
+        siftDown(0);
         return res;
     }
     void sort()
     {
-        for (int i = size() - 1; i >= 0; --i)
-            maintain(i);
+        for (int i = (size() - 1) / 2; i >= 0; --i)
+            siftDown(i);
     }
     friend std::ostream &operator<<(std::ostream &os, const Heap &h)
     {
@@ -80,9 +91,9 @@ int main()
         std::cin >> x;
         Q.push(x);
     }
+    Q.sort();
     for (int i = 0; i < 3; ++i)
     {
-        Q.sort();
         std::cout << Q << std::endl;
         Q.pop();
     }
