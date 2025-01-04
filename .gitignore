@@ -6,6 +6,7 @@ BITLeXueRANK_2024C/
 1*.cpp
 *.in
 temp*
+!template*
 tmp*
 # Prerequisites
 *.d
