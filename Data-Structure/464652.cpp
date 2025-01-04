@@ -33,9 +33,8 @@ private:
     }
     void siftDown(int idx)
     {
-        for (int i = idx, j = idx; getLeftson(i) < size(); i = j)
+        for (int i = idx, j = getLeftson(i); getLeftson(i) < size(); i = j)
         {
-            j = getLeftson(i);
             if (getRightson(i) < size() && get(getRightson(i)) > get(j))
                 j = getRightson(i);
             if (get(j) <= get(i))
