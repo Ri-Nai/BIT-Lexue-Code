@@ -1,4 +1,4 @@
-#import "../template.typ": *
+#import "template.typ": *
 
 #show: apply_styles.with()
 #header([分治算法作业])
