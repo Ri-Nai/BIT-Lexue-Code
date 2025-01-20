@@ -1,4 +1,4 @@
-#import "template.typ": *
+#import "../template.typ": *
 
 #show: apply_styles.with()
 #header([时间复杂性作业])

@@ -1,4 +1,4 @@
-#import "template.typ": *
+#import "../template.typ": *
 
 #show: apply_styles.with()
 #header([有限自动机作业])

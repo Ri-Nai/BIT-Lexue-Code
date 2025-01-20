@@ -1,4 +1,4 @@
-#import "template.typ": *
+#import "../template.typ": *
 
 #show: apply_styles.with()
 #header([动态规划算法作业])
