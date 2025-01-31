@@ -1,18 +1,24 @@
-#import "template/master-report-template.typ": *
 #import "@preview/codelst:2.0.0": sourcecode
+#import "@preview/fletcher:0.5.3" as fletcher: diagram, node, edge
+#import "@preview/lovelace:0.3.0": *
+
+#import "template/template.typ": *
 #import "../template.typ": *
+
 #show figure: set block(breakable: true)
 #let algorithm = figure.with(supplement: "算法", kind: "algorithm")
 
-#show: project.with(
-  asymmetric_margin: true,
-  padding_page: true,
-  subject: [数据结构研学报告],
-  title: [AC自动机的原理及应用],
-  author: [叶子宁],
-  major: [软件工程],
-  id: [1120231313],
-  date: datetime(year: 2024, month: 12, day: 9),
+#show: paper.with(
+  subject: "数据结构研学报告",
+  title: "AC自动机的原理及应用",
+  college: "计算机学院",
+  major: "软件工程",
+  class: "软工2301",
+  author: "杨紫诺",
+  student-id: "1120231313",
+  guide-teacher: "暂无求包养",
+  declear: false,
+  date: datetime(year: 2024, month: 1, day: 19),
 )
 
 
@@ -54,13 +60,13 @@ AC 自动机的构建基于 *字典树* 和 *KMP算法*，前者是确定DFA的�
 
 例如给出字符串集合
 #figure(
-  three_line_table((
-    ("", "string_name", ""),
+  three-line-table(
+    header: ("", "string_name", ""),
     ("", "Reina", ""),
     ("", "Rinai", ""),
     ("", "Rin", ""),
     ("", "Rena", ""),
-  )),
+  ),
   kind: table,
   caption: "模式串集合",
 )
@@ -112,7 +118,7 @@ AC 自动机的构建基于 *字典树* 和 *KMP算法*，前者是确定DFA的�
 
 若采用红黑树（`std::map`）等数据结构存储转移函数，空间复杂度可降至 $O(sum m_i)$，但是查询和构建的时间复杂度要乘上 $log |Sigma|$ 的因子。
 
-由于字典树可以轻松的查找模式串的前缀，在算法竞赛中常使用 $0-1$ 字典树来维护最大异或值。（根据输入的数据，每次选取与当前异或值最大的路径）#bib_cite(<oiwiki_trie>)
+由于字典树可以轻松的查找模式串的前缀，在算法竞赛中常使用 $0-1$ 字典树来维护最大异或值。（根据输入的数据，每次选取与当前异或值最大的路径）#bib-cite(<oiwiki_trie>)
 
 这里也能看到字典树的一个缺点，即只能判断与模式串的前缀关系匹配，无法判断其*子串*与模式串的关系。
 
@@ -122,7 +128,7 @@ AC 自动机的构建基于 *字典树* 和 *KMP算法*，前者是确定DFA的�
 == KMP算法
 
 KMP算法（Knuth-Morris-Pratt Algorithm）是由 Kruth、Morris 和 Pratt 三位计算机科学家于 1977 年提出的一种高效的字符串匹配算法。
-#bib_cite(<kmp>)
+#bib-cite(<kmp>)
 用于判断一个字符串是否包含另一个字符串作为子串，以及在匹配时出现的位置、次数等信息。
 
 KMP算法的朴素思想就是在匹配失败时，利用已经匹配的信息，尽量减少重复匹配的次数。
@@ -147,8 +153,8 @@ $
 
 例如对于字符串 `ababaca`，其前缀函数为
 #figure(
-  three_line_table((
-    (
+  three-line-table(
+    header: (
       $s[0...i]$,
       "a",
       "ab",
@@ -159,7 +165,7 @@ $
       text(red)[a] + "babac" + text(blue)[a],
     ),
     ($pi(i)$, "0", "0", "1", "2", "3", "0", "1"),
-  )),
+  ),
   kind: table,
   caption: "字符串" + `ababaca` + "的前缀函数",
 )
@@ -261,14 +267,14 @@ AC自动机是一个建立在字典树的基础之上的有限自动机，除了
 
 例如给出字符串集合：
 #figure(
-  three_line_table((
-    ("", "string_name", ""),
+  three-line-table(
+    header: ("", "string_name", ""),
     ("", "he", ""),
     ("", "she", ""),
     ("", "his", ""),
     ("", "hers", ""),
     ("", "is", ""),
-  )),
+  ),
   kind: table,
   caption: "模式串集合",
 )
@@ -322,7 +328,7 @@ AC自动机是一个建立在字典树的基础之上的有限自动机，除了
   caption: "模式串集合的AC自动机",
 )<diagram-ac-automaton>
 
-图中的 $epsilon$ 表示非确定性有限自动机中的 $epsilon$ 转移#bib_cite(<nfa_wiki>)，即不消耗任何输入，直接转移到下一个状态。在AC自动机中被称为 *fail* 指针。
+图中的 $epsilon$ 表示非确定性有限自动机中的 $epsilon$ 转移#bib-cite(<nfa_wiki>)，即不消耗任何输入，直接转移到下一个状态。在AC自动机中被称为 *fail* 指针。
 
 图中未画出的 *fail* 指针均指向根节点。
 
@@ -532,22 +538,23 @@ AC自动机是一个建立在字典树的基础之上的有限自动机，除了
 作为 AC 自动机最基本的应用，多模式串匹配是 AC 自动机的一个重要应用。主要用于在一个目标串中匹配多个模式串。
 
 + 字符串匹配：搜索引擎中的关键词匹配；代码编辑器中的代码提示...
-+ 文本过滤：游戏中过滤敏感词；过滤垃圾邮件#bib_cite(<丁川芸2019基于AC自动机和贝叶斯方法的垃圾内容识别>)
-+ 中文分词：使用动态规划概率推断的中文分词#bib_cite(<徐懿彬2017基于Aho-Corasick自动机算法的概率模型中文分词CPACA算法>)...
-+ 基因匹配：基因序列匹配#bib_cite(<thambawita2016optimized>)...
++ 文本过滤：游戏中过滤敏感词；过滤垃圾邮件#bib-cite(<丁川芸2019基于AC自动机和贝叶斯方法的垃圾内容识别>)
++ 中文分词：使用动态规划概率推断的中文分词#bib-cite(<徐懿彬2017基于Aho-Corasick自动机算法的概率模型中文分词CPACA算法>)...
++ 基因匹配：基因序列匹配#bib-cite(<thambawita2016optimized>)...
 + ...
 
 == 压缩字符串集合
 
-AC自动机通过构建多模式匹配树，优化字符串排序，帮助生成高重复性的BWT字符串，从而提升压缩效率。#bib_cite(<cazaux2018strong>)。
+AC自动机通过构建多模式匹配树，优化字符串排序，帮助生成高重复性的BWT字符串，从而提升压缩效率。#bib-cite(<cazaux2018strong>)。
 
 == 各类有限自动机在算法竞赛中的应用
 
 由AC自动机衍生出的各类有限自动机在算法竞赛中有着广泛的应用，例如：
 
-+ KMP自动机：类似于单串情况下的AC自动机，主要用于动态 / 可持久化字符串匹配等。#bib_cite(<luogu_KMPAM>)
-+ 后缀自动机：又称 SAM（Suffix Automaton），功能最为强大，主要用于与单模式串的后缀匹配 / 后缀树 / k大子串匹配 / LCP（Longest Common Prefix）等。#bib_cite(<oiwiki_sam>)
-+ 回文自动机：又称 PAM（Palindrome Automaton）或回文树，主要用于回文串匹配 / 回文子串个数统计 / 回文子串最长长度等。#bib_cite(<oiwiki_pam>)
++ KMP自动机：类似于单串情况下的AC自动机，主要用于动态 / 可持久化字符串匹配等。#bib-cite(<luogu_KMPAM>)
++ 后缀自动机：又称 SAM（Suffix Automaton），功能最为强大，主要用于与单模式串的后缀匹配 / 后缀树 / k大子串匹配 / LCP（Longest Common Prefix）等。#bib-cite(<oiwiki_sam>)
++ 回文自动机：又称 PAM（Palindrome Automaton）或回文树，主要用于回文串匹配 / 回文子串个数统计 / 回文子串最长长度等。#bib-cite(<oiwiki_pam>)
 
 #pagebreak()
-#bibliography("./ref.bib")
+
+#references("./ref.bib")

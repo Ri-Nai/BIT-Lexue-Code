@@ -1,3 +1,5 @@
+// copied from https://github.com/werifu/HUST-typst-template/blob/main/utilities/indent-funs.typ
+
 // 缩进相关函数
 #let indent() = {
   box(width: 2em)
@@ -13,17 +15,22 @@
   box()
 }
 
-#let _fix_indent(body) = {
+#let show-fix-indent(body) = {
   // 首段不缩进，手动加上 box
-  show heading: it => {
+  show math.equation.where(block: true): it => {
     it + empty_par()
   }
   show figure: it => {
     it + empty_par()
   }
-  show math.equation.where(block: true): it => {
+  set enum(indent: 2em)
+  set list(indent: 2em)
+  show enum: it => {
     it + empty_par()
-  }  
+  }
+  show list: it => {
+    it + empty_par()
+  }
 
   body
 }
